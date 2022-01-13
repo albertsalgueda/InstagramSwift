@@ -2,7 +2,7 @@
 //  InstagramApp.swift
 //  Instagram
 //
-//  Created by MYX on 1/12/22.
+//  Created by Albert Salgueda on 1/12/22.
 //
 
 import SwiftUI

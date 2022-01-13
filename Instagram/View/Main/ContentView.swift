@@ -2,15 +2,14 @@
 //  ContentView.swift
 //  Instagram
 //
-//  Created by MYX on 1/12/22.
+//  Created by Albert Salgueda on 1/12/22.
 //
 
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        MainTabView()
     }
 }
 
