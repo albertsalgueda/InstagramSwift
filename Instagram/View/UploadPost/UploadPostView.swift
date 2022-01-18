@@ -3,7 +3,7 @@
 //  Instagram
 //
 //  Created by MYX on 1/12/22.
-//
+// Class 15 -> revise the logic 
 
 import SwiftUI
 
@@ -11,9 +11,10 @@ struct UploadPostView: View {
     @State private var selectedImage: UIImage?
     @State var postImage: Image?
     @State var captionText = ""
+    @State var imagePickerPresented = false
     var body: some View {
         if postImage != nil{
-            Button(action: {},
+            Button(action: {imagePickerPresented.toggle()},
                    label: {
                 Image("plus_button")
                     .resizable()
@@ -23,13 +24,13 @@ struct UploadPostView: View {
                     .clipped()
                     .padding(.top,56)
                     .foregroundColor(.black)
-            })
+            }).sheet(isPresented: $imagePickerPresented, onDismiss: loadImage, content: {ImagePicker(image: $selectedImage)})
         Spacer()
         }
-        else{
-            VStack{
+        else if let image=postImage{
+            HStack{
                 HStack(alignment: .top){
-                        Image("ape")
+                    image
                             .resizable()
                             .scaledToFill()
                             .frame(width: 96, height: 96)
@@ -50,6 +51,14 @@ struct UploadPostView: View {
         
         }
 }
+
+extension UploadPostView {
+    func loadImage(){
+        guard let selectedImage = selectedImage else {return}
+        postImage = Image( uiImage: selectedImage)
+    }
+}
+
 
 struct UploadPost_Previews: PreviewProvider {
     static var previews: some View {
