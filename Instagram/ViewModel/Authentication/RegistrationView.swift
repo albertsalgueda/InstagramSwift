@@ -14,21 +14,34 @@ struct RegistrationView: View {
     @State private var password = ""
     @State private var imagePickerPresented = false
     @State private var selectedImage: UIImage?
-    @State private var postImage: Image?
+    @State private var image: Image?
     @Environment(\.presentationMode) var mode
     var body: some View {
         ZStack{
             LinearGradient(gradient: Gradient(colors: [Color.purple,Color.blue]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
-            VStack(spacing:10){
-                Button(action: {}, label: {
-                    Image("plus_button")
-                        .renderingMode(.template)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 140, height: 140)
-                        .foregroundColor(.white)
-                }).sheet(isPresented: $imagePickerPresented, onDismiss: loadImage, content: {ImagePicker(image: $selectedImage)})
+            VStack{
+                ZStack{
+                    if let image = image {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 140, height: 140)
+                            .clipShape(Circle())
+                            .foregroundColor(.white)
+                            .padding(.top,44)
+                    }
+                    else{
+                        Button(action: {imagePickerPresented.toggle()}, label: {
+                            Image("plus_button")
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 140, height: 140)
+                                .foregroundColor(.white)
+                        }).sheet(isPresented: $imagePickerPresented, onDismiss: loadImage, content: {ImagePicker(image: $selectedImage)})
+                    }
+                }
 //                    email field
                 VStack(spacing:20){
                     CustomTextField(text: $email, placeholder: Text("email"), imageName: "envelope")
@@ -88,7 +101,7 @@ struct RegistrationView: View {
 extension RegistrationView {
     func loadImage(){
         guard let selectedImage = selectedImage else {return}
-        postImage = Image( uiImage: selectedImage)
+        image = Image( uiImage: selectedImage)
     }
 }
 
